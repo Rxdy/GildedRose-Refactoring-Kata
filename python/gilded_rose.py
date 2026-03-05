@@ -14,13 +14,16 @@ class GildedRose(object):
     def _is_backstage_pass(self, item):
         return item.name == "Backstage passes to a TAFKAL80ETC concert"
 
+    def _degrade_normal(self, item):
+        decrement = 2 if "Conjured" in item.name else 1
+        item.quality = max(0, item.quality - decrement)
+
     def update_quality(self):
         for item in self.items:
             if not self._is_aged_brie(item) and not self._is_backstage_pass(item):
                 if item.quality > 0:
                     if not self._is_sulfuras(item):
-                        decrement = 2 if "Conjured" in item.name else 1
-                        item.quality = max(0, item.quality - decrement)
+                        self._degrade_normal(item)
             else:
                 if item.quality < 50:
                     item.quality += 1
@@ -38,8 +41,7 @@ class GildedRose(object):
                     if not self._is_backstage_pass(item):
                         if item.quality > 0:
                             if not self._is_sulfuras(item):
-                                decrement = 2 if "Conjured" in item.name else 1
-                                item.quality = max(0, item.quality - decrement)
+                                self._degrade_normal(item)
                     else:
                         item.quality = 0
                 else:
