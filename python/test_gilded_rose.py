@@ -16,5 +16,10 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(18, items[0].quality)
         self.assertEqual(-1, items[0].sell_in)
 
+    def test_normal_item_quality_never_negative(self):
+        items = [Item("Normal Item", 0, 0)]
+        GildedRose(items).update_quality()
+        self.assertEqual(0, items[0].quality)
+
 if __name__ == '__main__':
     unittest.main()
