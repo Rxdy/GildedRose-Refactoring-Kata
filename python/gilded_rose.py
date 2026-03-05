@@ -5,11 +5,14 @@ class GildedRose(object):
     def __init__(self, items):
         self.items = items
 
+    def _is_sulfuras(self, item):
+        return item.name == "Sulfuras, Hand of Ragnaros"
+
     def update_quality(self):
         for item in self.items:
             if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
                 if item.quality > 0:
-                    if item.name != "Sulfuras, Hand of Ragnaros":
+                    if not self._is_sulfuras(item):
                         decrement = 2 if "Conjured" in item.name else 1
                         item.quality = max(0, item.quality - decrement)
             else:
@@ -22,13 +25,13 @@ class GildedRose(object):
                         if item.sell_in < 6:
                             if item.quality < 50:
                                 item.quality += 1
-            if item.name != "Sulfuras, Hand of Ragnaros":
+            if not self._is_sulfuras(item):
                 item.sell_in -= 1
             if item.sell_in < 0:
                 if item.name != "Aged Brie":
                     if item.name != "Backstage passes to a TAFKAL80ETC concert":
                         if item.quality > 0:
-                            if item.name != "Sulfuras, Hand of Ragnaros":
+                            if not self._is_sulfuras(item):
                                 decrement = 2 if "Conjured" in item.name else 1
                                 item.quality = max(0, item.quality - decrement)
                     else:
